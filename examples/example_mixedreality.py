@@ -17,7 +17,7 @@ SUBSCRIPTION_ID = os.environ['AZURE_SUBSCRIPTION_ID']
 TENANT_ID = os.environ['AZURE_TENANT']
 CLIENT_ID = os.environ['AZURE_CLIENT_ID']
 CLIENT_SECRET = os.environ['AZURE_SECRET']
-ACCOUNT_NAME = "mySpatialAccountNameXyz"
+ACCOUNT_NAME = "myAccount"
 
 # management client
 credentials = ServicePrincipalCredentials(
@@ -26,19 +26,13 @@ credentials = ServicePrincipalCredentials(
     tenant=TENANT_ID
 )
 mgmt_client = MixedRealityClient(credentials, SUBSCRIPTION_ID)
-
-resource_management_client = ResourceManagementClient(credentials, SUBSCRIPTION_ID);
-
+resource_client = ResourceManagementClient(credentials, SUBSCRIPTION_ID)
 # CREATE RESOURCE GROUP
-
 print("Creating Resource Group")
-resource_management_client.resource_groups.create_or_update(resource_group_name=RESOURCE_GROUP, parameters={ 'location': AZURE_LOCATION })
+resource_client.resource_groups.create_or_update(resource_group_name=RESOURCE_GROUP, parameters={ 'location': AZURE_LOCATION })
 
 # /SpatialAnchorsAccounts/put/Create spatial anchor account[put]
 print("Create spatial anchor account")
-BODY = {
-  "location": AZURE_LOCATION
-}
 result = mgmt_client.spatial_anchors_accounts.create(resource_group_name=RESOURCE_GROUP, account_name=ACCOUNT_NAME, location=AZURE_LOCATION)
 
 # /RemoteRenderingAccounts/put/Create remote rendering account[put]
@@ -81,17 +75,11 @@ result = mgmt_client.operations.list()
 
 # /RemoteRenderingAccounts/post/Regenerate remote rendering account keys[post]
 print("Regenerate remote rendering account keys")
-BODY = {
-  "serial": "1"
-}
-result = mgmt_client.remote_rendering_accounts.regenerate_keys(resource_group_name=RESOURCE_GROUP, account_name=ACCOUNT_NAME, regenerate=BODY)
+result = mgmt_client.remote_rendering_accounts.regenerate_keys(resource_group_name=RESOURCE_GROUP, account_name=ACCOUNT_NAME, serial="1")
 
 # /SpatialAnchorsAccounts/post/Regenerate spatial anchors account keys[post]
 print("Regenerate spatial anchors account keys")
-BODY = {
-  "serial": "1"
-}
-result = mgmt_client.spatial_anchors_accounts.regenerate_keys(resource_group_name=RESOURCE_GROUP, account_name=ACCOUNT_NAME, regenerate=BODY)
+result = mgmt_client.spatial_anchors_accounts.regenerate_keys(resource_group_name=RESOURCE_GROUP, account_name=ACCOUNT_NAME, serial="1")
 
 # /RemoteRenderingAccounts/patch/Update remote rendering account[patch]
 print("Update remote rendering account")
@@ -117,7 +105,7 @@ result = mgmt_client.spatial_anchors_accounts.update(resource_group_name=RESOURC
 
 # //post/CheckLocalNameAvailability[post]
 print("CheckLocalNameAvailability")
-result = mgmt_client.check_name_availability_local(azure_location=AZURE_LOCATION, location=AZURE_LOCATION, name="MyAccount", type="Microsoft.MixedReality/spatialAnchorsAccounts")
+result = mgmt_client.check_name_availability_local(location=AZURE_LOCATION, name="MyAccount", type="Microsoft.MixedReality/spatialAnchorsAccounts")
 
 # /RemoteRenderingAccounts/delete/Delete remote rendering account[delete]
 print("Delete remote rendering account")
