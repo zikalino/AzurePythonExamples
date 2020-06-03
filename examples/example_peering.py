@@ -20,7 +20,7 @@ SUBSCRIPTION_ID='xxx'
 #CLIENT_ID = os.environ['AZURE_CLIENT_ID']
 #CLIENT_SECRET = os.environ['AZURE_SECRET']
 PEER_ASN_NAME = "myPeerAsn"
-PEERING_NAME = "myPeering" + "A"
+PEERING_NAME = "myPeering" + "B"
 REGISTERED_ASN_NAME = "myRegisteredAsn"
 REGISTERED_PREFIX_NAME = "myRegisteredPrefix"
 PEERING_SERVICE_NAME = "myPeeringService"
@@ -88,23 +88,23 @@ BODY = {
   "exchange": {
     "connections": [
       {
-        "peering_dbfacility_id": "99999",
+        "peering_db_facility_id": "99999",
         "bgp_session": {
-          "peer_session_ipv4address": "192.168.2.1",
-          "peer_session_ipv6address": "fd00::1",
+          "peer_session_ipv4_address": "80.249.231.0",
+          #"peer_session_ipv6_address": "fd00::1",
           "max_prefixes_advertised_v4": "1000",
-          "max_prefixes_advertised_v6": "100",
+          #"max_prefixes_advertised_v6": "100",
           "md5authentication_key": "test-md5-auth-key"
         },
         "connection_identifier": "CE495334-0E94-4E51-8164-8116D6CD284D"
       },
       {
-        "peering_dbfacility_id": "99999",
+        "peering_db_facility_id": "99999",
         "bgp_session": {
-          "peer_session_ipv4address": "192.168.2.2",
-          "peer_session_ipv6address": "fd00::2",
+          "peer_session_ipv4_address": "80.249.232.0",
+          #"peer_session_ipv6_address": "fd00::2",
           "max_prefixes_advertised_v4": "1000",
-          "max_prefixes_advertised_v6": "100",
+          #"max_prefixes_advertised_v6": "100",
           "md5authentication_key": "test-md5-auth-key"
         },
         "connection_identifier": "CDD8E673-CB07-47E6-84DE-3739F778762B"
@@ -114,9 +114,9 @@ BODY = {
       "id": "/subscriptions/" + SUBSCRIPTION_ID + "/providers/Microsoft.Peering/peerAsns/" + PEER_ASN_NAME
     }
   },
-  "peering_location": "Atlanta"
+  "peering_location": "Seattle"
 }
-# result = mgmt_client.peerings.create_or_update(resource_group_name=RESOURCE_GROUP, peering_name=PEERING_NAME, peering=BODY)
+result = mgmt_client.peerings.create_or_update(resource_group_name=RESOURCE_GROUP, peering_name=PEERING_NAME, peering=BODY)
 
 # /Peerings/put/Create a peering with exchange route server[put]
 print("Create a peering with exchange route server")
@@ -150,7 +150,7 @@ BODY = {
   },
   "peering_location": "Seattle"
 }
-result = mgmt_client.peerings.create_or_update(resource_group_name=RESOURCE_GROUP, peering_name=PEERING_NAME, peering=BODY)
+# result = mgmt_client.peerings.create_or_update(resource_group_name=RESOURCE_GROUP, peering_name=PEERING_NAME, peering=BODY)
 
 # /Peerings/put/Create a direct peering[put]
 print("Create a direct peering")
