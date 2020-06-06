@@ -85,7 +85,7 @@ BODY = {
     {
       "name": "vpnSiteLink1",
       "ip_address": "50.50.50.56",
-      "fqdn": "link1.vpnsite1.contoso.com",
+      #"fqdn": "link1.vpnsite1.contoso.com",
       "link_properties": {
         "link_provider_name": "vendor1",
         "link_speed_in_mbps": "0"
