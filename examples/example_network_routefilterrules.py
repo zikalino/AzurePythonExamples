@@ -24,7 +24,8 @@ CLIENT_SECRET = os.environ['AZURE_SECRET']
 #--------------------------------------------------------------------------
 AZURE_LOCATION = 'eastus'
 RESOURCE_GROUP = "myResourceGroup"
-VIRTUAL_WAN_NAME = "myVirtualWan"
+ROUTE_FILTER_NAME = "myRouteFilter"
+RULE_NAME = "myRule"
 
 
 #--------------------------------------------------------------------------
@@ -47,56 +48,52 @@ resource_client.resource_groups.create_or_update(resource_group_name=RESOURCE_GR
 
 
 #--------------------------------------------------------------------------
-# /VirtualWans/put/VirtualWANCreate[put]
+# /RouteFilters/put/RouteFilterCreate[put]
 #--------------------------------------------------------------------------
-print("VirtualWANCreate")
+print("RouteFilterCreate")
 BODY = {
   "location": AZURE_LOCATION,
   "tags": {
     "key1": "value1"
-  },
-  "disable_vpn_encryption": False,
-  "type": "Basic"
+  }
 }
-result = mgmt_client.virtual_wans.create_or_update(resource_group_name=RESOURCE_GROUP, virtual_wan_name=VIRTUAL_WAN_NAME, wan_parameters=BODY)
+result = mgmt_client.route_filters.create_or_update(resource_group_name=RESOURCE_GROUP, route_filter_name=ROUTE_FILTER_NAME, route_filter_parameters=BODY)
 result = result.result()
 
 
 #--------------------------------------------------------------------------
-# /VirtualWans/get/VirtualWANGet[get]
+# /RouteFilterRules/put/RouteFilterRuleCreate[put]
 #--------------------------------------------------------------------------
-print("VirtualWANGet")
-result = mgmt_client.virtual_wans.get(resource_group_name=RESOURCE_GROUP, virtual_wan_name=VIRTUAL_WAN_NAME)
-
-
-#--------------------------------------------------------------------------
-# /VirtualWans/get/VirtualWANListByResourceGroup[get]
-#--------------------------------------------------------------------------
-print("VirtualWANListByResourceGroup")
-result = mgmt_client.virtual_wans.list_by_resource_group(resource_group_name=RESOURCE_GROUP)
-
-
-#--------------------------------------------------------------------------
-# /VirtualWans/get/VirtualWANList[get]
-#--------------------------------------------------------------------------
-print("VirtualWANList")
-result = mgmt_client.virtual_wans.list()
-
-
-#--------------------------------------------------------------------------
-# /VirtualWans/patch/VirtualWANUpdate[patch]
-#--------------------------------------------------------------------------
-print("VirtualWANUpdate")
-TAGS = {
-  "key1": "value1",
-  "key2": "value2"
+print("RouteFilterRuleCreate")
+BODY = {
+  "access": "Allow",
+  "route_filter_rule_type": "Community",
+  "communities": [
+    "12076:5030",
+    "12076:5040"
+  ]
 }
-result = mgmt_client.virtual_wans.update_tags(resource_group_name=RESOURCE_GROUP, virtual_wan_name=VIRTUAL_WAN_NAME, tags=TAGS)
+result = mgmt_client.route_filter_rules.create_or_update(resource_group_name=RESOURCE_GROUP, route_filter_name=ROUTE_FILTER_NAME, rule_name=RULE_NAME, route_filter_rule_parameters=BODY)
+result = result.result()
 
 
 #--------------------------------------------------------------------------
-# /VirtualWans/delete/VirtualWANDelete[delete]
+# /RouteFilterRules/get/RouteFilterRuleGet[get]
 #--------------------------------------------------------------------------
-print("VirtualWANDelete")
-result = mgmt_client.virtual_wans.delete(resource_group_name=RESOURCE_GROUP, virtual_wan_name=VIRTUAL_WAN_NAME)
+print("RouteFilterRuleGet")
+result = mgmt_client.route_filter_rules.get(resource_group_name=RESOURCE_GROUP, route_filter_name=ROUTE_FILTER_NAME, rule_name=RULE_NAME)
+
+
+#--------------------------------------------------------------------------
+# /RouteFilterRules/get/RouteFilterRuleListByRouteFilter[get]
+#--------------------------------------------------------------------------
+print("RouteFilterRuleListByRouteFilter")
+result = mgmt_client.route_filter_rules.list_by_route_filter(resource_group_name=RESOURCE_GROUP, route_filter_name=ROUTE_FILTER_NAME)
+
+
+#--------------------------------------------------------------------------
+# /RouteFilterRules/delete/RouteFilterRuleDelete[delete]
+#--------------------------------------------------------------------------
+print("RouteFilterRuleDelete")
+result = mgmt_client.route_filter_rules.delete(resource_group_name=RESOURCE_GROUP, route_filter_name=ROUTE_FILTER_NAME, rule_name=RULE_NAME)
 result = result.result()

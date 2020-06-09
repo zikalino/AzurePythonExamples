@@ -24,8 +24,8 @@ CLIENT_SECRET = os.environ['AZURE_SECRET']
 #--------------------------------------------------------------------------
 AZURE_LOCATION = 'eastus'
 RESOURCE_GROUP = "myResourceGroup"
-VIRTUAL_HUB_NAME = "myVirtualHub"
 VIRTUAL_WAN_NAME = "myVirtualWan"
+VIRTUAL_HUB_NAME = "myVirtualHub"
 
 
 #--------------------------------------------------------------------------

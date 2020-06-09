@@ -58,14 +58,12 @@ BODY = {
   "rules": [
     {
       "name": "ruleName",
-      "properties": {
-        "access": "Allow",
-        "route_filter_rule_type": "Community",
-        "communities": [
-          "12076:5030",
-          "12076:5040"
-        ]
-      }
+      "access": "Allow",
+      "route_filter_rule_type": "Community",
+      "communities": [
+        "12076:5030",
+        "12076:5040"
+      ]
     }
   ]
 }

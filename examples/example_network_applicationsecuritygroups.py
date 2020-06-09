@@ -24,7 +24,7 @@ CLIENT_SECRET = os.environ['AZURE_SECRET']
 #--------------------------------------------------------------------------
 AZURE_LOCATION = 'eastus'
 RESOURCE_GROUP = "myResourceGroup"
-VIRTUAL_WAN_NAME = "myVirtualWan"
+APPLICATION_SECURITY_GROUP_NAME = "myApplicationSecurityGroup"
 
 
 #--------------------------------------------------------------------------
@@ -47,56 +47,51 @@ resource_client.resource_groups.create_or_update(resource_group_name=RESOURCE_GR
 
 
 #--------------------------------------------------------------------------
-# /VirtualWans/put/VirtualWANCreate[put]
+# /ApplicationSecurityGroups/put/Create application security group[put]
 #--------------------------------------------------------------------------
-print("VirtualWANCreate")
+print("Create application security group")
 BODY = {
-  "location": AZURE_LOCATION,
-  "tags": {
-    "key1": "value1"
-  },
-  "disable_vpn_encryption": False,
-  "type": "Basic"
+  "location": AZURE_LOCATION
 }
-result = mgmt_client.virtual_wans.create_or_update(resource_group_name=RESOURCE_GROUP, virtual_wan_name=VIRTUAL_WAN_NAME, wan_parameters=BODY)
+result = mgmt_client.application_security_groups.create_or_update(resource_group_name=RESOURCE_GROUP, application_security_group_name=APPLICATION_SECURITY_GROUP_NAME, parameters=BODY)
 result = result.result()
 
 
 #--------------------------------------------------------------------------
-# /VirtualWans/get/VirtualWANGet[get]
+# /ApplicationSecurityGroups/get/Get application security group[get]
 #--------------------------------------------------------------------------
-print("VirtualWANGet")
-result = mgmt_client.virtual_wans.get(resource_group_name=RESOURCE_GROUP, virtual_wan_name=VIRTUAL_WAN_NAME)
+print("Get application security group")
+result = mgmt_client.application_security_groups.get(resource_group_name=RESOURCE_GROUP, application_security_group_name=APPLICATION_SECURITY_GROUP_NAME)
 
 
 #--------------------------------------------------------------------------
-# /VirtualWans/get/VirtualWANListByResourceGroup[get]
+# /ApplicationSecurityGroups/get/List load balancers in resource group[get]
 #--------------------------------------------------------------------------
-print("VirtualWANListByResourceGroup")
-result = mgmt_client.virtual_wans.list_by_resource_group(resource_group_name=RESOURCE_GROUP)
+print("List load balancers in resource group")
+result = mgmt_client.application_security_groups.list(resource_group_name=RESOURCE_GROUP)
 
 
 #--------------------------------------------------------------------------
-# /VirtualWans/get/VirtualWANList[get]
+# /ApplicationSecurityGroups/get/List all application security groups[get]
 #--------------------------------------------------------------------------
-print("VirtualWANList")
-result = mgmt_client.virtual_wans.list()
+print("List all application security groups")
+result = mgmt_client.application_security_groups.list_all()
 
 
 #--------------------------------------------------------------------------
-# /VirtualWans/patch/VirtualWANUpdate[patch]
+# /ApplicationSecurityGroups/patch/Update application security group tags[patch]
 #--------------------------------------------------------------------------
-print("VirtualWANUpdate")
+print("Update application security group tags")
 TAGS = {
-  "key1": "value1",
-  "key2": "value2"
+  "tag1": "value1",
+  "tag2": "value2"
 }
-result = mgmt_client.virtual_wans.update_tags(resource_group_name=RESOURCE_GROUP, virtual_wan_name=VIRTUAL_WAN_NAME, tags=TAGS)
+result = mgmt_client.application_security_groups.update_tags(resource_group_name=RESOURCE_GROUP, application_security_group_name=APPLICATION_SECURITY_GROUP_NAME, tags=TAGS)
 
 
 #--------------------------------------------------------------------------
-# /VirtualWans/delete/VirtualWANDelete[delete]
+# /ApplicationSecurityGroups/delete/Delete application security group[delete]
 #--------------------------------------------------------------------------
-print("VirtualWANDelete")
-result = mgmt_client.virtual_wans.delete(resource_group_name=RESOURCE_GROUP, virtual_wan_name=VIRTUAL_WAN_NAME)
+print("Delete application security group")
+result = mgmt_client.application_security_groups.delete(resource_group_name=RESOURCE_GROUP, application_security_group_name=APPLICATION_SECURITY_GROUP_NAME)
 result = result.result()

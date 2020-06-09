@@ -24,7 +24,7 @@ CLIENT_SECRET = os.environ['AZURE_SECRET']
 #--------------------------------------------------------------------------
 AZURE_LOCATION = 'eastus'
 RESOURCE_GROUP = "myResourceGroup"
-VIRTUAL_WAN_NAME = "myVirtualWan"
+LOCAL_NETWORK_GATEWAY_NAME = "myLocalNetworkGateway"
 
 
 #--------------------------------------------------------------------------
@@ -47,56 +47,51 @@ resource_client.resource_groups.create_or_update(resource_group_name=RESOURCE_GR
 
 
 #--------------------------------------------------------------------------
-# /VirtualWans/put/VirtualWANCreate[put]
+# /LocalNetworkGateways/put/CreateLocalNetworkGateway[put]
 #--------------------------------------------------------------------------
-print("VirtualWANCreate")
+print("CreateLocalNetworkGateway")
 BODY = {
   "location": AZURE_LOCATION,
-  "tags": {
-    "key1": "value1"
+  "local_network_address_space": {
+    "address_prefixes": [
+      "10.1.0.0/16"
+    ]
   },
-  "disable_vpn_encryption": False,
-  "type": "Basic"
+  # "gateway_ip_address": "11.12.13.14",
+  "fqdn": "site1.contoso.com"
 }
-result = mgmt_client.virtual_wans.create_or_update(resource_group_name=RESOURCE_GROUP, virtual_wan_name=VIRTUAL_WAN_NAME, wan_parameters=BODY)
+result = mgmt_client.local_network_gateways.create_or_update(resource_group_name=RESOURCE_GROUP, local_network_gateway_name=LOCAL_NETWORK_GATEWAY_NAME, parameters=BODY)
 result = result.result()
 
 
 #--------------------------------------------------------------------------
-# /VirtualWans/get/VirtualWANGet[get]
+# /LocalNetworkGateways/get/GetLocalNetworkGateway[get]
 #--------------------------------------------------------------------------
-print("VirtualWANGet")
-result = mgmt_client.virtual_wans.get(resource_group_name=RESOURCE_GROUP, virtual_wan_name=VIRTUAL_WAN_NAME)
+print("GetLocalNetworkGateway")
+result = mgmt_client.local_network_gateways.get(resource_group_name=RESOURCE_GROUP, local_network_gateway_name=LOCAL_NETWORK_GATEWAY_NAME)
 
 
 #--------------------------------------------------------------------------
-# /VirtualWans/get/VirtualWANListByResourceGroup[get]
+# /LocalNetworkGateways/get/ListLocalNetworkGateways[get]
 #--------------------------------------------------------------------------
-print("VirtualWANListByResourceGroup")
-result = mgmt_client.virtual_wans.list_by_resource_group(resource_group_name=RESOURCE_GROUP)
+print("ListLocalNetworkGateways")
+result = mgmt_client.local_network_gateways.list(resource_group_name=RESOURCE_GROUP)
 
 
 #--------------------------------------------------------------------------
-# /VirtualWans/get/VirtualWANList[get]
+# /LocalNetworkGateways/patch/UpdateLocalNetworkGatewayTags[patch]
 #--------------------------------------------------------------------------
-print("VirtualWANList")
-result = mgmt_client.virtual_wans.list()
-
-
-#--------------------------------------------------------------------------
-# /VirtualWans/patch/VirtualWANUpdate[patch]
-#--------------------------------------------------------------------------
-print("VirtualWANUpdate")
+print("UpdateLocalNetworkGatewayTags")
 TAGS = {
-  "key1": "value1",
-  "key2": "value2"
+  "tag1": "value1",
+  "tag2": "value2"
 }
-result = mgmt_client.virtual_wans.update_tags(resource_group_name=RESOURCE_GROUP, virtual_wan_name=VIRTUAL_WAN_NAME, tags=TAGS)
+result = mgmt_client.local_network_gateways.update_tags(resource_group_name=RESOURCE_GROUP, local_network_gateway_name=LOCAL_NETWORK_GATEWAY_NAME, tags=TAGS)
 
 
 #--------------------------------------------------------------------------
-# /VirtualWans/delete/VirtualWANDelete[delete]
+# /LocalNetworkGateways/delete/DeleteLocalNetworkGateway[delete]
 #--------------------------------------------------------------------------
-print("VirtualWANDelete")
-result = mgmt_client.virtual_wans.delete(resource_group_name=RESOURCE_GROUP, virtual_wan_name=VIRTUAL_WAN_NAME)
+print("DeleteLocalNetworkGateway")
+result = mgmt_client.local_network_gateways.delete(resource_group_name=RESOURCE_GROUP, local_network_gateway_name=LOCAL_NETWORK_GATEWAY_NAME)
 result = result.result()

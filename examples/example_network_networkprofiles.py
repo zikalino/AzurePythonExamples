@@ -24,7 +24,9 @@ CLIENT_SECRET = os.environ['AZURE_SECRET']
 #--------------------------------------------------------------------------
 AZURE_LOCATION = 'eastus'
 RESOURCE_GROUP = "myResourceGroup"
-ROUTE_TABLE_NAME = "myRouteTable"
+NETWORK_PROFILE_NAME = "myNetworkProfile"
+VIRTUAL_NETWORK_NAME = "myVirtualNetwork"
+SUBNET_NAME = "mySubnet"
 
 
 #--------------------------------------------------------------------------
@@ -47,70 +49,97 @@ resource_client.resource_groups.create_or_update(resource_group_name=RESOURCE_GR
 
 
 #--------------------------------------------------------------------------
-# /RouteTables/put/Create route table with route[put]
+# /VirtualNetworks/put/Create virtual network[put]
 #--------------------------------------------------------------------------
-print("Create route table with route")
+print("Create virtual network")
 BODY = {
   "location": AZURE_LOCATION,
-  "disable_bgp_route_propagation": True,
-  "routes": [
+  "address_space": {
+    "address_prefixes": [
+      "10.0.0.0/16"
+    ]
+  }
+}
+result = mgmt_client.virtual_networks.create_or_update(resource_group_name=RESOURCE_GROUP, virtual_network_name=VIRTUAL_NETWORK_NAME, parameters=BODY)
+result = result.result()
+
+
+#--------------------------------------------------------------------------
+# /Subnets/put/Create subnet[put]
+#--------------------------------------------------------------------------
+print("Create subnet")
+BODY = {
+  "address_prefix": "10.0.0.0/16"
+}
+result = mgmt_client.subnets.create_or_update(resource_group_name=RESOURCE_GROUP, virtual_network_name=VIRTUAL_NETWORK_NAME, subnet_name=SUBNET_NAME, subnet_parameters=BODY)
+result = result.result()
+
+
+#--------------------------------------------------------------------------
+# /NetworkProfiles/put/Create network profile defaults[put]
+#--------------------------------------------------------------------------
+print("Create network profile defaults")
+BODY = {
+  "location": AZURE_LOCATION,
+  "container_network_interface_configurations": [
     {
-      "name": "route1",
-      "address_prefix": "10.0.3.0/24",
-      "next_hop_type": "VirtualNetworkGateway"
+      "name": "eth1",
+      "ip_configurations": [
+        {
+          "name": "ipconfig1",
+          "subnet": {
+            "id": "/subscriptions/" + SUBSCRIPTION_ID + "/resourceGroups/" + RESOURCE_GROUP + "/providers/Microsoft.Network/virtualNetworks/" + VIRTUAL_NETWORK_NAME + "/subnets/" + SUBNET_NAME
+          }
+        }
+      ]
     }
   ]
 }
-result = mgmt_client.route_tables.create_or_update(resource_group_name=RESOURCE_GROUP, route_table_name=ROUTE_TABLE_NAME, parameters=BODY)
-result = result.result()
+result = mgmt_client.network_profiles.create_or_update(resource_group_name=RESOURCE_GROUP, network_profile_name=NETWORK_PROFILE_NAME, parameters=BODY)
 
 
 #--------------------------------------------------------------------------
-# /RouteTables/put/Create route table[put]
+# /NetworkProfiles/get/Get network profile with container network interfaces[get]
 #--------------------------------------------------------------------------
-print("Create route table")
-BODY = {
-  "location": AZURE_LOCATION
-}
-result = mgmt_client.route_tables.create_or_update(resource_group_name=RESOURCE_GROUP, route_table_name=ROUTE_TABLE_NAME, parameters=BODY)
-result = result.result()
+print("Get network profile with container network interfaces")
+result = mgmt_client.network_profiles.get(resource_group_name=RESOURCE_GROUP, network_profile_name=NETWORK_PROFILE_NAME)
 
 
 #--------------------------------------------------------------------------
-# /RouteTables/get/Get route table[get]
+# /NetworkProfiles/get/Get network profile[get]
 #--------------------------------------------------------------------------
-print("Get route table")
-result = mgmt_client.route_tables.get(resource_group_name=RESOURCE_GROUP, route_table_name=ROUTE_TABLE_NAME)
+print("Get network profile")
+result = mgmt_client.network_profiles.get(resource_group_name=RESOURCE_GROUP, network_profile_name=NETWORK_PROFILE_NAME)
 
 
 #--------------------------------------------------------------------------
-# /RouteTables/get/List route tables in resource group[get]
+# /NetworkProfiles/get/List resource group network profiles[get]
 #--------------------------------------------------------------------------
-print("List route tables in resource group")
-result = mgmt_client.route_tables.list(resource_group_name=RESOURCE_GROUP)
+print("List resource group network profiles")
+result = mgmt_client.network_profiles.list(resource_group_name=RESOURCE_GROUP)
 
 
 #--------------------------------------------------------------------------
-# /RouteTables/get/List all route tables[get]
+# /NetworkProfiles/get/List all network profiles[get]
 #--------------------------------------------------------------------------
-print("List all route tables")
-result = mgmt_client.route_tables.list_all()
+print("List all network profiles")
+result = mgmt_client.network_profiles.list_all()
 
 
 #--------------------------------------------------------------------------
-# /RouteTables/patch/Update route table tags[patch]
+# /NetworkProfiles/patch/Update network profile tags[patch]
 #--------------------------------------------------------------------------
-print("Update route table tags")
+print("Update network profile tags")
 TAGS = {
   "tag1": "value1",
   "tag2": "value2"
 }
-result = mgmt_client.route_tables.update_tags(resource_group_name=RESOURCE_GROUP, route_table_name=ROUTE_TABLE_NAME, tags=TAGS)
+result = mgmt_client.network_profiles.update_tags(resource_group_name=RESOURCE_GROUP, network_profile_name=NETWORK_PROFILE_NAME, tags=TAGS)
 
 
 #--------------------------------------------------------------------------
-# /RouteTables/delete/Delete route table[delete]
+# /NetworkProfiles/delete/Delete network profile[delete]
 #--------------------------------------------------------------------------
-print("Delete route table")
-result = mgmt_client.route_tables.delete(resource_group_name=RESOURCE_GROUP, route_table_name=ROUTE_TABLE_NAME)
+print("Delete network profile")
+result = mgmt_client.network_profiles.delete(resource_group_name=RESOURCE_GROUP, network_profile_name=NETWORK_PROFILE_NAME)
 result = result.result()

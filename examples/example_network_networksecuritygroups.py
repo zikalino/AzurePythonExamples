@@ -62,24 +62,20 @@ result = result.result()
 #--------------------------------------------------------------------------
 print("Create network security group with rule")
 BODY = {
-  "properties": {
-    "security_rules": [
-      {
-        "name": "rule1",
-        "properties": {
-          "protocol": "*",
-          "source_address_prefix": "*",
-          "destination_address_prefix": "*",
-          "access": "Allow",
-          "destination_port_range": "80",
-          "source_port_range": "*",
-          "priority": "130",
-          "direction": "Inbound"
-        }
-      }
-    ]
-  },
-  "location": AZURE_LOCATION
+  "location": AZURE_LOCATION,
+  "security_rules": [
+    {
+      "name": "rule1",
+      "protocol": "*",
+      "source_address_prefix": "*",
+      "destination_address_prefix": "*",
+      "access": "Allow",
+      "destination_port_range": "80",
+      "source_port_range": "*",
+      "priority": "130",
+      "direction": "Inbound"
+    }
+  ]
 }
 result = mgmt_client.network_security_groups.create_or_update(resource_group_name=RESOURCE_GROUP, network_security_group_name=NETWORK_SECURITY_GROUP_NAME, parameters=BODY)
 result = result.result()

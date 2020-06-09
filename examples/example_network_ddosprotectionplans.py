@@ -24,7 +24,7 @@ CLIENT_SECRET = os.environ['AZURE_SECRET']
 #--------------------------------------------------------------------------
 AZURE_LOCATION = 'eastus'
 RESOURCE_GROUP = "myResourceGroup"
-VIRTUAL_WAN_NAME = "myVirtualWan"
+DDOS_PROTECTION_PLAN_NAME = "myDdosProtectionPlan"
 
 
 #--------------------------------------------------------------------------
@@ -47,56 +47,48 @@ resource_client.resource_groups.create_or_update(resource_group_name=RESOURCE_GR
 
 
 #--------------------------------------------------------------------------
-# /VirtualWans/put/VirtualWANCreate[put]
+# /DdosProtectionPlans/put/Create DDoS protection plan[put]
 #--------------------------------------------------------------------------
-print("VirtualWANCreate")
-BODY = {
-  "location": AZURE_LOCATION,
-  "tags": {
-    "key1": "value1"
-  },
-  "disable_vpn_encryption": False,
-  "type": "Basic"
-}
-result = mgmt_client.virtual_wans.create_or_update(resource_group_name=RESOURCE_GROUP, virtual_wan_name=VIRTUAL_WAN_NAME, wan_parameters=BODY)
+print("Create DDoS protection plan")
+result = mgmt_client.ddos_protection_plans.create_or_update(resource_group_name=RESOURCE_GROUP, ddos_protection_plan_name=DDOS_PROTECTION_PLAN_NAME, location=AZURE_LOCATION)
 result = result.result()
 
 
 #--------------------------------------------------------------------------
-# /VirtualWans/get/VirtualWANGet[get]
+# /DdosProtectionPlans/get/Get DDoS protection plan[get]
 #--------------------------------------------------------------------------
-print("VirtualWANGet")
-result = mgmt_client.virtual_wans.get(resource_group_name=RESOURCE_GROUP, virtual_wan_name=VIRTUAL_WAN_NAME)
+print("Get DDoS protection plan")
+result = mgmt_client.ddos_protection_plans.get(resource_group_name=RESOURCE_GROUP, ddos_protection_plan_name=DDOS_PROTECTION_PLAN_NAME)
 
 
 #--------------------------------------------------------------------------
-# /VirtualWans/get/VirtualWANListByResourceGroup[get]
+# /DdosProtectionPlans/get/List DDoS protection plans in resource group[get]
 #--------------------------------------------------------------------------
-print("VirtualWANListByResourceGroup")
-result = mgmt_client.virtual_wans.list_by_resource_group(resource_group_name=RESOURCE_GROUP)
+print("List DDoS protection plans in resource group")
+result = mgmt_client.ddos_protection_plans.list_by_resource_group(resource_group_name=RESOURCE_GROUP)
 
 
 #--------------------------------------------------------------------------
-# /VirtualWans/get/VirtualWANList[get]
+# /DdosProtectionPlans/get/List all DDoS protection plans[get]
 #--------------------------------------------------------------------------
-print("VirtualWANList")
-result = mgmt_client.virtual_wans.list()
+print("List all DDoS protection plans")
+result = mgmt_client.ddos_protection_plans.list()
 
 
 #--------------------------------------------------------------------------
-# /VirtualWans/patch/VirtualWANUpdate[patch]
+# /DdosProtectionPlans/patch/DDoS protection plan Update tags[patch]
 #--------------------------------------------------------------------------
-print("VirtualWANUpdate")
+print("DDoS protection plan Update tags")
 TAGS = {
-  "key1": "value1",
-  "key2": "value2"
+  "tag1": "value1",
+  "tag2": "value2"
 }
-result = mgmt_client.virtual_wans.update_tags(resource_group_name=RESOURCE_GROUP, virtual_wan_name=VIRTUAL_WAN_NAME, tags=TAGS)
+result = mgmt_client.ddos_protection_plans.update_tags(resource_group_name=RESOURCE_GROUP, ddos_protection_plan_name=DDOS_PROTECTION_PLAN_NAME, tags=TAGS)
 
 
 #--------------------------------------------------------------------------
-# /VirtualWans/delete/VirtualWANDelete[delete]
+# /DdosProtectionPlans/delete/Delete DDoS protection plan[delete]
 #--------------------------------------------------------------------------
-print("VirtualWANDelete")
-result = mgmt_client.virtual_wans.delete(resource_group_name=RESOURCE_GROUP, virtual_wan_name=VIRTUAL_WAN_NAME)
+print("Delete DDoS protection plan")
+result = mgmt_client.ddos_protection_plans.delete(resource_group_name=RESOURCE_GROUP, ddos_protection_plan_name=DDOS_PROTECTION_PLAN_NAME)
 result = result.result()

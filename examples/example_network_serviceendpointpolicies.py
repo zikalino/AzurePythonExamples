@@ -24,7 +24,7 @@ CLIENT_SECRET = os.environ['AZURE_SECRET']
 #--------------------------------------------------------------------------
 AZURE_LOCATION = 'eastus'
 RESOURCE_GROUP = "myResourceGroup"
-VIRTUAL_WAN_NAME = "myVirtualWan"
+SERVICE_ENDPOINT_POLICY_NAME = "myServiceEndpointPolicy"
 
 
 #--------------------------------------------------------------------------
@@ -47,56 +47,74 @@ resource_client.resource_groups.create_or_update(resource_group_name=RESOURCE_GR
 
 
 #--------------------------------------------------------------------------
-# /VirtualWans/put/VirtualWANCreate[put]
+# /ServiceEndpointPolicies/put/Create service endpoint policy with definition[put]
 #--------------------------------------------------------------------------
-print("VirtualWANCreate")
+print("Create service endpoint policy with definition")
 BODY = {
   "location": AZURE_LOCATION,
-  "tags": {
-    "key1": "value1"
-  },
-  "disable_vpn_encryption": False,
-  "type": "Basic"
+  "service_endpoint_policy_definitions": [
+    {
+      "name": "StorageServiceEndpointPolicyDefinition",
+      "description": "Storage Service EndpointPolicy Definition",
+      "service": "Microsoft.Storage",
+      "service_resources": [
+        "/subscriptions/subid1",
+        "/subscriptions/subid1/resourceGroups/storageRg",
+        "/subscriptions/subid1/resourceGroups/storageRg/providers/Microsoft.Storage/storageAccounts/stAccount"
+      ]
+    }
+  ]
 }
-result = mgmt_client.virtual_wans.create_or_update(resource_group_name=RESOURCE_GROUP, virtual_wan_name=VIRTUAL_WAN_NAME, wan_parameters=BODY)
+result = mgmt_client.service_endpoint_policies.create_or_update(resource_group_name=RESOURCE_GROUP, service_endpoint_policy_name=SERVICE_ENDPOINT_POLICY_NAME, parameters=BODY)
 result = result.result()
 
 
 #--------------------------------------------------------------------------
-# /VirtualWans/get/VirtualWANGet[get]
+# /ServiceEndpointPolicies/put/Create service endpoint policy[put]
 #--------------------------------------------------------------------------
-print("VirtualWANGet")
-result = mgmt_client.virtual_wans.get(resource_group_name=RESOURCE_GROUP, virtual_wan_name=VIRTUAL_WAN_NAME)
-
-
-#--------------------------------------------------------------------------
-# /VirtualWans/get/VirtualWANListByResourceGroup[get]
-#--------------------------------------------------------------------------
-print("VirtualWANListByResourceGroup")
-result = mgmt_client.virtual_wans.list_by_resource_group(resource_group_name=RESOURCE_GROUP)
-
-
-#--------------------------------------------------------------------------
-# /VirtualWans/get/VirtualWANList[get]
-#--------------------------------------------------------------------------
-print("VirtualWANList")
-result = mgmt_client.virtual_wans.list()
-
-
-#--------------------------------------------------------------------------
-# /VirtualWans/patch/VirtualWANUpdate[patch]
-#--------------------------------------------------------------------------
-print("VirtualWANUpdate")
-TAGS = {
-  "key1": "value1",
-  "key2": "value2"
+print("Create service endpoint policy")
+BODY = {
+  "location": AZURE_LOCATION
 }
-result = mgmt_client.virtual_wans.update_tags(resource_group_name=RESOURCE_GROUP, virtual_wan_name=VIRTUAL_WAN_NAME, tags=TAGS)
+result = mgmt_client.service_endpoint_policies.create_or_update(resource_group_name=RESOURCE_GROUP, service_endpoint_policy_name=SERVICE_ENDPOINT_POLICY_NAME, parameters=BODY)
+result = result.result()
 
 
 #--------------------------------------------------------------------------
-# /VirtualWans/delete/VirtualWANDelete[delete]
+# /ServiceEndpointPolicies/get/Get service endPoint Policy[get]
 #--------------------------------------------------------------------------
-print("VirtualWANDelete")
-result = mgmt_client.virtual_wans.delete(resource_group_name=RESOURCE_GROUP, virtual_wan_name=VIRTUAL_WAN_NAME)
+print("Get service endPoint Policy")
+result = mgmt_client.service_endpoint_policies.get(resource_group_name=RESOURCE_GROUP, service_endpoint_policy_name=SERVICE_ENDPOINT_POLICY_NAME)
+
+
+#--------------------------------------------------------------------------
+# /ServiceEndpointPolicies/get/List resource group service endpoint policies[get]
+#--------------------------------------------------------------------------
+print("List resource group service endpoint policies")
+result = mgmt_client.service_endpoint_policies.list_by_resource_group(resource_group_name=RESOURCE_GROUP)
+
+
+#--------------------------------------------------------------------------
+# /ServiceEndpointPolicies/get/List all service endpoint policy[get]
+#--------------------------------------------------------------------------
+print("List all service endpoint policy")
+result = mgmt_client.service_endpoint_policies.list()
+
+
+#--------------------------------------------------------------------------
+# /ServiceEndpointPolicies/patch/Update service endpoint policy tags[patch]
+#--------------------------------------------------------------------------
+print("Update service endpoint policy tags")
+TAGS = {
+  "tag1": "value1",
+  "tag2": "value2"
+}
+result = mgmt_client.service_endpoint_policies.update_tags(resource_group_name=RESOURCE_GROUP, service_endpoint_policy_name=SERVICE_ENDPOINT_POLICY_NAME, tags=TAGS)
+
+
+#--------------------------------------------------------------------------
+# /ServiceEndpointPolicies/delete/Delete service endpoint policy[delete]
+#--------------------------------------------------------------------------
+print("Delete service endpoint policy")
+result = mgmt_client.service_endpoint_policies.delete(resource_group_name=RESOURCE_GROUP, service_endpoint_policy_name=SERVICE_ENDPOINT_POLICY_NAME)
 result = result.result()
