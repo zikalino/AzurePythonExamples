@@ -23,13 +23,14 @@ CLIENT_SECRET = os.environ['AZURE_SECRET']
 # variables
 #--------------------------------------------------------------------------
 AZURE_LOCATION = 'eastus'
-RESOURCE_GROUP = "myResourceGroup" + "X"
+RESOURCE_GROUP = "myResourceGroup"
 LOAD_BALANCER_NAME = "myLoadBalancer"
+FRONTEND_IP_CONFIGURATION_NAME = "myFrontendIpConfiguration"
 VIRTUAL_NETWORK_NAME = "myVirtualNetwork"
 SUBNET_NAME = "mySubnet"
-FRONTEND_IP_CONFIGURATION_NAME = "myFrontendIpConfiguration"
-BACKEND_ADDRESS_POOL_NAME = "myBackendAddressPool"
+BACKEND_ADDRESS_POOL_NAME = "myBackendAddressPoolName"
 PROBE_NAME = "myProbe"
+INBOUND_NAT_RULE_NAME = "myInboundNatRuleName"
 INBOUND_NAT_POOL_NAME = "myInboundNatPool"
 PUBLIC_IP_ADDRESS_NAME = "myPublicIpAddress"
 
@@ -152,7 +153,7 @@ BODY = {
   ],
   "inbound_nat_rules": [
     {
-      "name": "in-nat-rule",
+      "name": INBOUND_NAT_RULE_NAME,
       "frontend_ip_configuration": {
         "id": "/subscriptions/" + SUBSCRIPTION_ID + "/resourceGroups/" + RESOURCE_GROUP + "/providers/Microsoft.Network/loadBalancers/" + LOAD_BALANCER_NAME + "/frontendIPConfigurations/" + FRONTEND_IP_CONFIGURATION_NAME
       },
@@ -225,7 +226,7 @@ BODY = {
   ],
   "inbound_nat_rules": [
     {
-      "name": "in-nat-rule",
+      "name": INBOUND_NAT_RULE_NAME,
       "frontend_ip_configuration": {
         "id": "/subscriptions/" + SUBSCRIPTION_ID + "/resourceGroups/" + RESOURCE_GROUP + "/providers/Microsoft.Network/loadBalancers/" + LOAD_BALANCER_NAME + "/frontendIPConfigurations/" + FRONTEND_IP_CONFIGURATION_NAME
       },
@@ -310,7 +311,7 @@ BODY = {
   ],
   "inbound_nat_rules": [
     {
-      "name": "in-nat-rule",
+      "name": INBOUND_NAT_RULE_NAME,
       "frontend_ip_configuration": {
         "id": "/subscriptions/" + SUBSCRIPTION_ID + "/resourceGroups/" + RESOURCE_GROUP + "/providers/Microsoft.Network/loadBalancers/" + LOAD_BALANCER_NAME + "/frontendIPConfigurations/" + FRONTEND_IP_CONFIGURATION_NAME
       },
@@ -380,7 +381,7 @@ BODY = {
   ],
   "inbound_nat_rules": [
     {
-      "name": "in-nat-rule",
+      "name": INBOUND_NAT_RULE_NAME,
       "frontend_ip_configuration": {
         "id": "/subscriptions/" + SUBSCRIPTION_ID + "/resourceGroups/" + RESOURCE_GROUP + "/providers/Microsoft.Network/loadBalancers/" + LOAD_BALANCER_NAME + "/frontendIPConfigurations/" + FRONTEND_IP_CONFIGURATION_NAME
       },
@@ -440,7 +441,7 @@ BODY = {
     }
   ]
 }
-result = mgmt_client.load_balancers.create_or_update(resource_group_name=RESOURCE_GROUP, load_balancer_name=LOAD_BALANCER_NAME + "5", parameters=BODY)
+result = mgmt_client.load_balancers.create_or_update(resource_group_name=RESOURCE_GROUP, load_balancer_name=LOAD_BALANCER_NAME, parameters=BODY)
 result = result.result()
 
 
