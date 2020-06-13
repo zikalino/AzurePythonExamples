@@ -25,8 +25,8 @@ CLIENT_SECRET = os.environ['AZURE_SECRET']
 AZURE_LOCATION = 'eastus'
 RESOURCE_GROUP = "myResourceGroup"
 CIRCUIT_NAME = "myCircuit"
+PEERING_NAME = "AzurePrivatePeering"
 EXPRESS_ROUTE_PORT_NAME = "myExpressRoutePort"
-PEERING_NAME = "myPeering"
 DEVICE_PATH = "myDevicePath"
 
 
@@ -74,6 +74,21 @@ result = result.result()
 
 
 #--------------------------------------------------------------------------
+# /ExpressRouteCircuitPeerings/put/Create ExpressRouteCircuit Peerings[put]
+#--------------------------------------------------------------------------
+print("Create ExpressRouteCircuit Peerings")
+BODY = {
+  "peer_asn": "200",
+  "primary_peer_address_prefix": "192.168.16.252/30",
+  "secondary_peer_address_prefix": "192.168.18.252/30",
+  "vlan_id": "200"
+}
+result = mgmt_client.express_route_circuit_peerings.create_or_update(resource_group_name=RESOURCE_GROUP, circuit_name=CIRCUIT_NAME, peering_name=PEERING_NAME, peering_parameters=BODY)
+result = result.result()
+
+
+#--------------------------------------------------------------------------
+# Disabled as express route port can't be created
 # /ExpressRouteCircuits/put/Create ExpressRouteCircuit on ExpressRoutePort[put]
 #--------------------------------------------------------------------------
 print("Create ExpressRouteCircuit on ExpressRoutePort")
@@ -89,15 +104,15 @@ BODY = {
   },
   "bandwidth_in_gbps": "10"
 }
-#result = mgmt_client.express_route_circuits.create_or_update(resource_group_name=RESOURCE_GROUP, circuit_name=CIRCUIT_NAME, parameters=BODY)
-#result = result.result()
+# result = mgmt_client.express_route_circuits.create_or_update(resource_group_name=RESOURCE_GROUP, circuit_name=CIRCUIT_NAME, parameters=BODY)
+# result = result.result()
 
 
 #--------------------------------------------------------------------------
 # /ExpressRouteCircuits/get/Get ExpressRoute Circuit Peering Traffic Stats[get]
 #--------------------------------------------------------------------------
 print("Get ExpressRoute Circuit Peering Traffic Stats")
-#result = mgmt_client.express_route_circuits.get_peering_stats(resource_group_name=RESOURCE_GROUP, circuit_name=CIRCUIT_NAME, peering_name=PEERING_NAME)
+result = mgmt_client.express_route_circuits.get_peering_stats(resource_group_name=RESOURCE_GROUP, circuit_name=CIRCUIT_NAME, peering_name=PEERING_NAME)
 
 
 #--------------------------------------------------------------------------
@@ -129,27 +144,30 @@ result = mgmt_client.express_route_circuits.list_all()
 
 
 #--------------------------------------------------------------------------
+# Disabled - not sure what device path should be
 # /ExpressRouteCircuits/post/List Route Table Summary[post]
 #--------------------------------------------------------------------------
 print("List Route Table Summary")
-#result = mgmt_client.express_route_circuits.list_routes_table_summary(resource_group_name=RESOURCE_GROUP, circuit_name=CIRCUIT_NAME, peering_name=PEERING_NAME, device_path=DEVICE_PATH)
-#result = result.result()
+# result = mgmt_client.express_route_circuits.list_routes_table_summary(resource_group_name=RESOURCE_GROUP, circuit_name=CIRCUIT_NAME, peering_name=PEERING_NAME, device_path=DEVICE_PATH)
+# result = result.result()
 
 
 #--------------------------------------------------------------------------
+# Disabled - not sure what device path should be
 # /ExpressRouteCircuits/post/List Route Tables[post]
 #--------------------------------------------------------------------------
 print("List Route Tables")
-#result = mgmt_client.express_route_circuits.list_routes_table(resource_group_name=RESOURCE_GROUP, circuit_name=CIRCUIT_NAME, peering_name=PEERING_NAME, device_path=DEVICE_PATH)
-#result = result.result()
+# result = mgmt_client.express_route_circuits.list_routes_table(resource_group_name=RESOURCE_GROUP, circuit_name=CIRCUIT_NAME, peering_name=PEERING_NAME, device_path=DEVICE_PATH)
+# result = result.result()
 
 
 #--------------------------------------------------------------------------
+# Disabled - not sure what device path should be
 # /ExpressRouteCircuits/post/List ARP Table[post]
 #--------------------------------------------------------------------------
 print("List ARP Table")
-#result = mgmt_client.express_route_circuits.list_arp_table(resource_group_name=RESOURCE_GROUP, circuit_name=CIRCUIT_NAME, peering_name=PEERING_NAME, device_path=DEVICE_PATH)
-#result = result.result()
+# result = mgmt_client.express_route_circuits.list_arp_table(resource_group_name=RESOURCE_GROUP, circuit_name=CIRCUIT_NAME, peering_name=PEERING_NAME, device_path=DEVICE_PATH)
+# result = result.result()
 
 
 #--------------------------------------------------------------------------
@@ -164,8 +182,9 @@ result = mgmt_client.express_route_circuits.update_tags(resource_group_name=RESO
 
 
 #--------------------------------------------------------------------------
+# Azure Error: AnotherOperationInProgress
 # /ExpressRouteCircuits/delete/Delete ExpressRouteCircuit[delete]
 #--------------------------------------------------------------------------
 print("Delete ExpressRouteCircuit")
-#result = mgmt_client.express_route_circuits.delete(resource_group_name=RESOURCE_GROUP, circuit_name=CIRCUIT_NAME)
-#result = result.result()
+# result = mgmt_client.express_route_circuits.delete(resource_group_name=RESOURCE_GROUP, circuit_name=CIRCUIT_NAME)
+# result = result.result()
