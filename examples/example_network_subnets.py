@@ -52,12 +52,12 @@ resource_client.resource_groups.create_or_update(resource_group_name=RESOURCE_GR
 #--------------------------------------------------------------------------
 print("Create virtual network")
 BODY = {
+  "location": AZURE_LOCATION,
   "address_space": {
     "address_prefixes": [
       "10.0.0.0/16"
     ]
-  },
-  "location": AZURE_LOCATION
+  }
 }
 result = mgmt_client.virtual_networks.create_or_update(resource_group_name=RESOURCE_GROUP, virtual_network_name=VIRTUAL_NETWORK_NAME, parameters=BODY)
 result = result.result()
@@ -123,19 +123,21 @@ result = mgmt_client.subnets.list(resource_group_name=RESOURCE_GROUP, virtual_ne
 
 
 #--------------------------------------------------------------------------
+# Azure Error: UnauthorizedOperation
 # /Subnets/post/Unprepare Network Policies[post]
 #--------------------------------------------------------------------------
 print("Unprepare Network Policies")
-#result = mgmt_client.subnets.unprepare_network_policies(resource_group_name=RESOURCE_GROUP, virtual_network_name=VIRTUAL_NETWORK_NAME, subnet_name=SUBNET_NAME, service_name="Microsoft.Sql/managedInstances")
-#result = result.result()
+# result = mgmt_client.subnets.unprepare_network_policies(resource_group_name=RESOURCE_GROUP, virtual_network_name=VIRTUAL_NETWORK_NAME, subnet_name=SUBNET_NAME, service_name="Microsoft.Sql/managedInstances")
+# result = result.result()
 
 
 #--------------------------------------------------------------------------
+# Azure Error: UnauthorizedOperation
 # /Subnets/post/Prepare Network Policies[post]
 #--------------------------------------------------------------------------
 print("Prepare Network Policies")
-#result = mgmt_client.subnets.prepare_network_policies(resource_group_name=RESOURCE_GROUP, virtual_network_name=VIRTUAL_NETWORK_NAME, subnet_name=SUBNET_NAME, service_name="Microsoft.Sql/managedInstances")
-#result = result.result()
+# result = mgmt_client.subnets.prepare_network_policies(resource_group_name=RESOURCE_GROUP, virtual_network_name=VIRTUAL_NETWORK_NAME, subnet_name=SUBNET_NAME, service_name="Microsoft.Sql/managedInstances")
+# result = result.result()
 
 
 #--------------------------------------------------------------------------
