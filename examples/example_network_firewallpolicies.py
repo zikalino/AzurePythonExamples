@@ -26,6 +26,7 @@ AZURE_LOCATION = 'eastus'
 RESOURCE_GROUP = "myResourceGroup"
 FIREWALL_POLICY_NAME = "myFirewallPolicy"
 RULE_GROUP_NAME = "myRuleGroup"
+IP_GROUPS_NAME = "myIpGroups"
 
 
 #--------------------------------------------------------------------------
@@ -45,6 +46,25 @@ resource_client = ResourceManagementClient(credentials, SUBSCRIPTION_ID)
 #--------------------------------------------------------------------------
 print("Creating Resource Group")
 resource_client.resource_groups.create_or_update(resource_group_name=RESOURCE_GROUP, parameters={ 'location': AZURE_LOCATION })
+
+
+#--------------------------------------------------------------------------
+# /IpGroups/put/CreateOrUpdate_IpGroups[put]
+#--------------------------------------------------------------------------
+print("CreateOrUpdate_IpGroups")
+BODY = {
+  "tags": {
+    "key1": "value1"
+  },
+  "location": AZURE_LOCATION,
+  "ip_addresses": [
+    "13.64.39.16/32",
+    "40.74.146.80/31",
+    "40.74.147.32/28"
+  ]
+}
+result = mgmt_client.ip_groups.create_or_update(resource_group_name=RESOURCE_GROUP, ip_groups_name=IP_GROUPS_NAME, parameters=BODY)
+result = result.result()
 
 
 #--------------------------------------------------------------------------
@@ -109,6 +129,7 @@ result = result.result()
 
 
 #--------------------------------------------------------------------------
+# Need to construct test with two IP Groups
 # /FirewallPolicyRuleGroups/put/Create FirewallPolicyRuleGroup With IpGroups[put]
 #--------------------------------------------------------------------------
 print("Create FirewallPolicyRuleGroup With IpGroups")
@@ -142,15 +163,16 @@ BODY = {
     }
   ]
 }
-#result = mgmt_client.firewall_policy_rule_groups.create_or_update(resource_group_name=RESOURCE_GROUP, firewall_policy_name=FIREWALL_POLICY_NAME, rule_group_name=RULE_GROUP_NAME, parameters=BODY)
-#result = result.result()
+# result = mgmt_client.firewall_policy_rule_groups.create_or_update(resource_group_name=RESOURCE_GROUP, firewall_policy_name=FIREWALL_POLICY_NAME, rule_group_name=RULE_GROUP_NAME, parameters=BODY)
+# result = result.result()
 
 
 #--------------------------------------------------------------------------
+# Need to construct test with two IP Groups
 # /FirewallPolicyRuleGroups/get/Get FirewallPolicyRuleGroup With IpGroups[get]
 #--------------------------------------------------------------------------
 print("Get FirewallPolicyRuleGroup With IpGroups")
-result = mgmt_client.firewall_policy_rule_groups.get(resource_group_name=RESOURCE_GROUP, firewall_policy_name=FIREWALL_POLICY_NAME, rule_group_name=RULE_GROUP_NAME)
+# result = mgmt_client.firewall_policy_rule_groups.get(resource_group_name=RESOURCE_GROUP, firewall_policy_name=FIREWALL_POLICY_NAME, rule_group_name=RULE_GROUP_NAME)
 
 
 #--------------------------------------------------------------------------
