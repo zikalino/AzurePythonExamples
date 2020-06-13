@@ -87,6 +87,7 @@ result = mgmt_client.ip_groups.list()
 
 
 #--------------------------------------------------------------------------
+# The requested resource does not support http method 'PATCH'.
 # /IpGroups/patch/Update_IpGroups[patch]
 #--------------------------------------------------------------------------
 print("Update_IpGroups")
